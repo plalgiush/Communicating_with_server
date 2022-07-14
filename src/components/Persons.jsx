@@ -13,7 +13,7 @@ const Persons = ({ names, filter }) => {
     return (
         <div>
             {filteredData.map(item => (
-                <div key={item.id}>{item.name} {item.phone}</div>
+                <div key={item.id}>{item.name} {item.phone} {item.number}</div>
             ))}
         </div>
     );
