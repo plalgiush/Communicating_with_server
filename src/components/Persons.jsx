@@ -1,6 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import axios from "axios";
 
-const Persons = ({ names, filter }) => {
+const Persons = ({ names, filter, setName }) => {
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/persons')
+            .then(response => {
+                setName(response.data)
+            })
+    },[])
 
     const filteredData = names.filter(person => {
         if (filter === '') {
