@@ -1,24 +1,24 @@
-import { useState } from 'react';
-import Persons from "./components/Persons";
-import PersonForm from "./components/PersonForm";
+import {useEffect, useState} from 'react';
+import axios from "axios";
+import Countries from "./components/Countries";
 import Filter from "./components/Filter";
 
 const App = () => {
-    const [names, setName] = useState([])
-    const [newName, setNewName] = useState('')
-    const [newNumber, setNewNumber] = useState('')
+    const [countries, setCountries] = useState([])
     const [filter, setFilter] = useState('')
+
+    useEffect(() => {
+        axios
+            .get('https://restcountries.com/v3.1/all')
+            .then(response => {
+                setCountries(response.data)
+            })
+    }, [])
 
     return (
         <div>
-            <h2>Phonebook</h2>
-            <Filter filter={filter} setFilter={setFilter}/>
-            <h2>add a new</h2>
-            <PersonForm names={names} newName={newName} newNumber={newNumber}
-                        setName={setName} setNewName={setNewName} setNewNumber={setNewNumber} />
-
-            <h2>Numbers</h2>
-            <Persons names={names} filter={filter} setName={setName}/>
+            <Filter filter={filter} setFilter={setFilter} />
+            <Countries countries={countries} filter={filter} />
         </div>
     )
 }
