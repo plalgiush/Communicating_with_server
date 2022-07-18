@@ -29,7 +29,7 @@ const Countries = ({ countries, filter, setCountries }) => {
                         <ul>
                             {languages.map(language => <li key={nanoid()}>{language}</li>)}
                         </ul>
-                        <img src={countryFlag} alt="flag"/>
+                        <img style={{width: '200px', height: '100px'}} src={countryFlag} alt="flag"/>
                     </div>
                 )
             })
