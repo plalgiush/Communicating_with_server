@@ -1,7 +1,7 @@
 import React from 'react';
 import {nanoid} from "nanoid";
 
-const Countries = ({ countries, filter }) => {
+const Countries = ({ countries, filter, setCountries }) => {
 
     const countryData = countries.filter(country => {
         if (filter === '') {
@@ -39,12 +39,15 @@ const Countries = ({ countries, filter }) => {
     const showResult = () => {
         if (filter.length === 0) {
             return <p>Enter the name of the country</p>
-        } else if (filter.length !== 0 && countryData.length > 10) {
+        } else if (countryData.length > 10) {
             return <p>Too many matches, specify another filter</p>
-        } else if (filter.length !== 0 && countryData.length === 1) {
+        } else if (countryData.length === 1) {
             return fullInfo(countryData)
         } else {
-            return countryData.map(country => <div key={nanoid()}>{country.name.common}</div>)
+            return countryData.map(country =>
+                <div key={nanoid()}> {country.name.common}
+                    <button onClick={() => setCountries([country])}>show</button>
+                </div>)
         }
     }
 
