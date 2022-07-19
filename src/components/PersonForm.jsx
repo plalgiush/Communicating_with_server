@@ -1,4 +1,4 @@
-import React from 'react';
+import noteService from '../services/notes'
 
 const PersonForm = ({names, newName, newNumber, setName, setNewName, setNewNumber}) => {
 
@@ -24,9 +24,13 @@ const PersonForm = ({names, newName, newNumber, setName, setNewName, setNewNumbe
         if (readyName !== undefined) {
             alert(`${newName} is already added to phonebook`)
         } else {
-            setName(names.concat(nameObject))
-            setNewName('')
-            setNewNumber('')
+            noteService
+                .create(nameObject)
+                .then(response => {
+                    setName(names.concat(response.data))
+                    setNewName('')
+                    setNewNumber('')
+                })
         }
     }
 
