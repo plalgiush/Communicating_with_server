@@ -1,7 +1,7 @@
 import React from 'react';
 import noteService from '../services/notes'
 
-const Persons = ({ names, setName, filter }) => {
+const Persons = ({ names, setName, filter, setMessage }) => {
 
     const filteredData = names.filter(person => {
         if (filter === '') {
@@ -16,6 +16,12 @@ const Persons = ({ names, setName, filter }) => {
             noteService
                 .deletePerson(id)
                 .then(response => {
+                    setMessage(
+                        { warning : `Deleted of ${name} from server`}
+                    )
+                    setTimeout(() => {
+                        setMessage(null)
+                    }, 5000)
                     const newNameList = names.filter((item) => item.name !== name);
                     setName(newNameList);
                 })

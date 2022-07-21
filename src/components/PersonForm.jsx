@@ -1,6 +1,6 @@
 import noteService from '../services/notes'
 
-const PersonForm = ({names, newName, newNumber, setName, setNewName, setNewNumber}) => {
+const PersonForm = ({names, newName, newNumber, setName, setNewName, setNewNumber, setMessage}) => {
 
     const handleNameChange = (event) => {
         setNewName(event.target.value)
@@ -22,11 +22,41 @@ const PersonForm = ({names, newName, newNumber, setName, setNewName, setNewNumbe
         const readyName = names.find(name => newName === name.name);
 
         if (readyName !== undefined) {
-            alert(`${newName} is already added to phonebook`)
+            if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one ?`)) {
+                noteService
+                    .update(readyName.id, nameObject)
+                    .then(response => {
+                        setMessage(
+                            { success : `Updated number of ${readyName.name} `
+                    }
+                        )
+                        setTimeout(() => {
+                            setMessage(null)
+                        }, 5000)
+                        setName(names.map(name => name.id !== readyName.id ? name : response.data))
+                        setNewName('')
+                        setNewNumber('')
+                    })
+                    .catch(error => {
+                        setMessage(
+                            { mistake : `Information of ${readyName.name} has already been removed from server`}
+                        )
+                        setTimeout(() => {
+                            setMessage(null)
+                        }, 5000)
+                        setName(names.filter(n => n.id !== readyName.id))
+                    })
+            }
         } else {
             noteService
                 .create(nameObject)
                 .then(response => {
+                    setMessage(
+                        { success : `Added ${nameObject.name}` }
+                    )
+                    setTimeout(() => {
+                        setMessage(null)
+                    }, 5000)
                     setName(names.concat(response.data))
                     setNewName('')
                     setNewNumber('')
