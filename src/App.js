@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Persons from "./components/Persons";
-import PersonForm from "./components/PersonForm";
+import PersonForm from "./components/PersonForm"; 
 import Filter from "./components/Filter";
 import Notification from "./components/Notification";
 import noteService from './services/notes'
