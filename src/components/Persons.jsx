@@ -3,6 +3,8 @@ import noteService from '../services/notes'
 
 const Persons = ({ names, setName, filter, setMessage }) => {
 
+    console.log(names);
+
     const filteredData = names.filter(person => {
         if (filter === '') {
             return person
