@@ -1,5 +1,5 @@
 import React from 'react';
-import noteService from '../services/notes'
+import personService from '../services/persons'
 
 const Persons = ({ names, setName, filter, setMessage }) => {
 
@@ -13,7 +13,7 @@ const Persons = ({ names, setName, filter, setMessage }) => {
 
     const deletePerson = (id, name) => {
         if (window.confirm(`Delete ${name} ?`)) {
-            noteService
+            personService
                 .deletePerson(id)
                 .then(response => {
                     setMessage(

@@ -3,7 +3,7 @@ import Persons from "./components/Persons";
 import PersonForm from "./components/PersonForm"; 
 import Filter from "./components/Filter";
 import Notification from "./components/Notification";
-import noteService from './services/notes'
+import personService from './services/persons'
 
 const App = () => {
     const [names, setName] = useState([])
@@ -13,7 +13,7 @@ const App = () => {
     const [message, setMessage] = useState(null)
 
     useEffect(() => {
-        noteService
+        personService
             .getAll()
             .then(response => {
                 setName(response.data)

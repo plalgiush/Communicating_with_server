@@ -1,4 +1,4 @@
-import noteService from '../services/notes'
+import personService from '../services/persons'
 
 const PersonForm = ({names, newName, newNumber, setName, setNewName, setNewNumber, setMessage}) => {
 
@@ -16,39 +16,37 @@ const PersonForm = ({names, newName, newNumber, setName, setNewName, setNewNumbe
         const nameObject = {
             name: newName,
             phone: newNumber,
-            id: names.length + 1,
         }
 
-        const readyName = names.find(name => newName === name.name);
+        const readyName = names.find(name => newName === name.name)
 
         if (readyName !== undefined) {
             if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one ?`)) {
-                noteService
+                personService
                     .update(readyName.id, nameObject)
                     .then(response => {
                         setMessage(
-                            { success : `Updated number of ${readyName.name} `
-                    }
+                            { success : `Updated number of ${readyName.name} `}
                         )
+                        setName(names.map(name => name.id !== readyName.id ? name : response.data))
                         setTimeout(() => {
                             setMessage(null)
                         }, 5000)
-                        setName(names.map(name => name.id !== readyName.id ? name : response.data))
                         setNewName('')
                         setNewNumber('')
                     })
-                    .catch(error => {
+                    .catch(error => { console.log(error, 123123);
+                    
                         setMessage(
-                            { mistake : `Information of ${readyName.name} has already been removed from server`}
+                            { mistake : `${error.response.data.error}`}
                         )
                         setTimeout(() => {
                             setMessage(null)
                         }, 5000)
-                        setName(names.filter(n => n.id !== readyName.id))
                     })
             }
-        } else {
-            noteService
+        } else {           
+            personService
                 .create(nameObject)
                 .then(response => {
                     setMessage(
@@ -60,6 +58,14 @@ const PersonForm = ({names, newName, newNumber, setName, setNewName, setNewNumbe
                     setName(names.concat(response.data))
                     setNewName('')
                     setNewNumber('')
+                })
+                .catch(error => {
+					setMessage(
+                        { mistake : `${error.response.data.error}` }
+                    )
+                    setTimeout(() => {
+                        setMessage(null)
+                    }, 5000)
                 })
         }
     }
